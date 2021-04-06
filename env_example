@@ -1,0 +1,4 @@
+
+MY_VK_APP_TOKEN = ''
+MY_VK_GROUP_TOKEN = ''
+DSN = 'postgresql+psycopg2://postgres:postgres@localhost:5432/db_name'

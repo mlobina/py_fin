@@ -1,13 +1,11 @@
-
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, ForeignKey
-from VK_DB_connections import DataBaseConnection
-
-
+from connections import DataBaseConnection
 
 session = DataBaseConnection().session
 engine = DataBaseConnection().engine
 Base = declarative_base()
+
 
 class User(Base):
     __tablename__ = 'user'
@@ -35,7 +33,7 @@ class Photos(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     link_photo = Column(String)
     count_likes = Column(Integer)
-    id_dating_user = Column(Integer, ForeignKey('dating_user.id', ondelete='CASCADE' ))
+    id_dating_user = Column(Integer, ForeignKey('dating_user.id', ondelete='CASCADE'))
 
 
 class BlackList(Base):
@@ -51,15 +49,3 @@ class BlackList(Base):
     link_photo = Column(String)
     count_likes = Column(Integer)
     id_user = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
-
-
-if __name__ == '__main__':
-    Base.metadata.create_all(engine)
-
-
-
-
-
-
-
-

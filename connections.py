@@ -24,7 +24,6 @@ class VKUserConnection:
         self.vk_session = VkApi(token=self.token)
 
 
-
 class DataBaseConnection:
 
     def __init__(self):
@@ -32,4 +31,3 @@ class DataBaseConnection:
         self.DSN = os.getenv('DSN')
         self.engine = sq.create_engine(self.DSN, echo=True)
         self.session = sessionmaker(bind=self.engine)
-

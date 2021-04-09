@@ -1,7 +1,9 @@
 import json
 from vk_api.exceptions import ApiError
-from VK_DB_connections import VKUserConnection
+from connections import VKUserConnection
+
 vk_user = VKUserConnection().vk_session
+
 
 def search_dating_users(sex, age_from, age_to, city, status):
     all_dating_users = []
@@ -64,23 +66,21 @@ def sort_photos_by_likes(photos):
 
     return sorted(result)
 
-def json_create(lst, photos):
-   res = {}
-   res_list = []
 
-   while len(res_list) < 10:
+def json_create(list_, photos):
+    res = {}
+    res_list = []
 
-       for i, item in enumerate(lst):
-           res['first_name'] = item[0]
-           res['last_name'] = item[1]
-           res['link'] = item[2]
-           res['id'] = item[3]
-           res['photos'] = photos
-           res_list.append(res.copy())
+    while len(res_list) < 10:
+        for i, item in enumerate(list_):
+            res['first_name'] = item[0]
+            res['last_name'] = item[1]
+            res['link'] = item[2]
+            res['id'] = item[3]
+            res['photos'] = photos
+            res_list.append(res.copy())
 
-
-       with open('result.json', 'a', encoding='UTF-8') as file:
-           json.dump(res_list, file, ensure_ascii=False)
-
-       print('Информация об отобранных пользователях загружена в json-файл')
-       break
+        with open('result.json', 'a', encoding='UTF-8') as file:
+            json.dump(res_list, file, ensure_ascii=False)
+        print('Информация об отобранных пользователях загружена в json-файл')
+        break

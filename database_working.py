@@ -1,16 +1,17 @@
-
 from vk_api.utils import get_random_id
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
-from VK_DB_connections import VKBotConnection, DataBaseConnection
-from DB_model import User, DatingUser, Photos, BlackList
+from connections import VKBotConnection, DataBaseConnection
+from database_model import User, DatingUser, Photos, BlackList
 
 vk = VKBotConnection().vk_session
 Session = DataBaseConnection().session
 engine = DataBaseConnection().engine
 session = Session()
 
+
 def write_bot_message(user_id, message, attachment=None):
-    vk.method('messages.send', {'user_id': user_id, 'message': message, 'random_id': get_random_id(), 'attachment': attachment})
+    vk.method('messages.send', {'user_id': user_id, 'message': message, 'random_id': get_random_id(), \
+                                'attachment': attachment})
 
 
 def register_user(vk_id):
@@ -23,12 +24,12 @@ def register_user(vk_id):
         return False
 
 
-def check_DB_master(ids):
+def check_db_master(ids):
     current_user_id = session.query(User).filter_by(vk_id=ids).first()
     return current_user_id
 
 
-def check_user_is_in_DB(ids):
+def check_user_is_in_db(ids):
     dating_user = session.query(DatingUser).filter_by(vk_id=ids).first()
     black_list_user = session.query(BlackList).filter_by(vk_id=ids).first()
     return dating_user, black_list_user
@@ -56,7 +57,6 @@ def check_users_are_in_favourites(ids):
     current_users_id = session.query(User).filter_by(vk_id=ids).first()
     all_users_favourites = session.query(DatingUser).filter_by(id_user=current_users_id.id).all()
     return all_users_favourites
-
 
 
 def delete_user_from_favorites(ids):
@@ -105,8 +105,8 @@ def check_users_are_in_black_list(ids):
     all_users_black_list = session.query(BlackList).filter_by(id_user=current_users_id.id).all()
     return all_users_black_list
 
+
 def delete_user_from_black_list(ids):
     current_user = session.query(DatingUser).filter_by(vk_id=ids).first()
     session.delete(current_user)
     session.commit()
-
